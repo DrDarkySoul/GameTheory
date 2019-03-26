@@ -74,3 +74,4 @@ def brown_robinson_method(c):
     print("Оптимальная стратегия игрока 2:", x_k)
     print("Цена игры в промежутке:", v_bot, v_top)
     print("Количество раундов: ", k)
+    return x_k, y_k
