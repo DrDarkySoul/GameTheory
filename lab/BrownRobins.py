@@ -2,14 +2,6 @@ from numpy.linalg import inv
 from random import randint
 import numpy as np
 
-C = np.array([
-    [1., 11., 11.],
-    [7., 5., 8.],
-    [16., 6., 2.]
-])
-
-size = np.size(C, 0)
-
 
 def add_vectors(v, w):
     return [vi + wi for vi, wi in zip(v, w)]
@@ -42,6 +34,7 @@ def inverse_matrix_method(c):
 
 def brown_robinson_method(c):
     print("Метод Брауна–Робинсона:")
+    size = np.size(c, 0)
     k = 1
     choice_a = randint(0, size - 1)
     choice_b = randint(0, size - 1)
@@ -81,8 +74,3 @@ def brown_robinson_method(c):
     print("Оптимальная стратегия игрока 2:", x_k)
     print("Цена игры в промежутке:", v_bot, v_top)
     print("Количество раундов: ", k)
-
-
-inverse_matrix_method(C)
-brown_robinson_method(C)
-
