@@ -8,14 +8,25 @@ C = np.array([
     [16., 6., 2.]
 ])
 
+size = np.size(C, 0)
+
 
 def add_vectors(v, w):
     return [vi + wi for vi, wi in zip(v, w)]
 
 
+def indexes(l, e):
+    return [index for index, value in enumerate(l) if value == e]
+
+
+def get_vector(e, s):
+    return [e for _ in range(0, s)]
+
+
 def inverse_matrix_method(c):
     print("Аналитический метод:")
-    u = np.array([1., 1., 1.])
+    s = np.size(c, 0)
+    u = np.array(get_vector(1., s))
     c_inv = inv(c)
     x_numerator = np.dot(c_inv, u.transpose())
     x_denominator = np.dot(np.dot(u, c_inv), u.transpose())
@@ -32,21 +43,25 @@ def inverse_matrix_method(c):
 def brown_robinson_method(c):
     print("Метод Брауна–Робинсона:")
     k = 1
-    choice_a = randint(0, 2)
-    choice_b = randint(0, 2)
-    x_k = [0, 0, 0]
-    y_k = [0, 0, 0]
+    choice_a = randint(0, size - 1)
+    choice_b = randint(0, size - 1)
+    x_k = get_vector(0, size)
+    y_k = get_vector(0, size)
     x_k[choice_a] = x_k[choice_a] + 1
     y_k[choice_b] = y_k[choice_b] + 1
     win_a = c[:, choice_a].tolist()
     loose_b = c[choice_b, :].tolist()
     v_top = max(win_a) / k
     v_bot = min(loose_b) / k
+    v_top_min = v_top
+    v_bot_max = v_bot
     eps = v_top - v_bot
-    # print(k, choice_a + 1, choice_b + 1, win_a, loose_b, v_top, v_bot, eps)
+    print(k, choice_a + 1, choice_b + 1, win_a, loose_b, v_top, v_bot, eps)
     while eps >= 0.1:
-        choice_a = loose_b.index(min(loose_b))
-        choice_b = win_a.index(max(win_a))
+        i_len = indexes(loose_b, min(loose_b))
+        choice_a = i_len[randint(0, len(i_len) - 1)]
+        j_len = indexes(win_a, max(win_a))
+        choice_b = j_len[randint(0, len(j_len) - 1)]
         x_k[choice_a] = x_k[choice_a] + 1
         y_k[choice_b] = y_k[choice_b] + 1
         win_a = add_vectors(win_a, c[:, choice_a].tolist())
@@ -54,13 +69,18 @@ def brown_robinson_method(c):
         k += 1
         v_top = max(win_a) / k
         v_bot = min(loose_b) / k
-        eps = v_top - v_bot
-        # print(k, choice_a + 1, choice_b + 1, win_a, loose_b, v_top, v_bot, eps)
+        if v_top_min > v_top:
+            v_top_min = v_top
+        if v_bot_max < v_bot:
+            v_bot_max = v_bot
+        eps = v_top_min - v_bot_max
+        print(k, choice_a + 1, choice_b + 1, win_a, loose_b, v_top, v_bot, eps)
     y_k = [num / k for num in y_k]
     x_k = [num / k for num in x_k]
     print("Оптимальная стратегия игрока 1:", y_k)
     print("Оптимальная стратегия игрока 2:", x_k)
     print("Цена игры в промежутке:", v_bot, v_top)
+    print("Количество раундов: ", k)
 
 
 inverse_matrix_method(C)
