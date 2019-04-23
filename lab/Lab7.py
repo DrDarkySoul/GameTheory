@@ -7,6 +7,12 @@ c = 10/3
 d = -2/3
 e = -4/3
 
+# a = -3
+# b = 3/2
+# c = 18/5
+# d = -18/50
+# e = -72/25
+
 Hxx = 2 * a
 Hyy = 2 * b
 
@@ -50,7 +56,7 @@ def find_saddle_point(array, N):
         for j in range(0, N + 1):
             if array[j][i] == row_min[j] == col_max[i]:
                 print("Есть седловая точка:")
-                print("x = {0: <5.4}, y = {0: <5.4}, H = {0: <5.4}".format(j/N, i/N, array[j][i]))
+                print("x = {0: <5.4}, y = {1: <5.4}, H = {2: <5.4}".format(j/N, i/N, array[j][i]))
                 return j/N, i/N, array[j][i]
     print("Седловых точек нет!")
     return -1, -1, -1
@@ -61,7 +67,7 @@ def number_method(a, b, c, d, e):
     y = (c * d - 2 * a * e) / (4 * a * b - c * c)
     x = - ((c * y + d) / (2 * a))
     H = h(a, b, c, d, e, x, y)
-    print("x = {0: <5.4}, y = {0: <5.4}, H = {0: <5.4}".format(x, y, H))
+    print("x = {0: <5.4}, y = {1: <5.4}, H = {2: <5.4}".format(x, y, H))
 
 
 number_method(a, b, c, d, e)
@@ -73,4 +79,4 @@ for i in range(2, 11):
         x = max(x_k)
         y = max(y_k)
         H = h(a, b, c, d, e, x, y)
-        print("x = ", x, ", y = ", y, "H = ", H)
+        print("x = {0: <5.4}, y = {1: <5.4}, H = {2: <5.4}".format(x, y, H))
