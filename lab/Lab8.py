@@ -7,6 +7,8 @@ import numpy as np
 #     [3.,  5., 4., 12., 3.]
 # ])
 
+# Example
+
 C = np.array([
     [5.,  8., 7.,  5., 4.],
     [1., 10., 5.,  5., 6.],
@@ -18,37 +20,43 @@ C = np.array([
 def max_min(array):
     x = array.shape[0]
     y = array.shape[1]
-    row_min = [1000.0] * x
+    row_min = [np.amax(array)] * x
     for i in range(0, x):
         for j in range(0, y):
             row_min[i] = min(row_min[i], array[i][j])
-    return row_min.index(max(row_min)) + 1
+    win = max(row_min)
+    return [row_min.index(win) + 1, win]
 
 
 def max_max(array):
-    x = array.shape[0]
-    y = array.shape[1]
-    row_max = [-1000.0] * x
-    for i in range(0, x):
-        for j in range(0, y):
-            row_max[i] = max(row_max[i], array[i][j])
-    return row_max.index(max(row_max)) + 1
+    win = np.amax(array)
+    return [np.where(array == win)[0][0] + 1, win]
 
 
 def vald_crit(array):
     print("Критерий Вальда:")
-    print("Стратегия с индексом {0}".format(max_min(array)))
+    answer = max_min(array)
+    print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
 
 
 def opt_crit(array):
     print("Критерий максимума:")
-    print("Стратегия с индексом {0}".format(max_max(array)))
+    answer = max_max(array)
+    print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
 
 
 def gurvic_crit(array, a):
     print("Критерий Гурвица:")
-    print("Стратегия с индексом {0}".format(max_max(array)))
+    x = array.shape[0]
+    row_crit = [np.amin(array)] * x
+    for i in range(0, x):
+        minimum = np.amin(array[i])
+        maximum = np.amax(array[i])
+        row_crit[i] = (a * minimum) + (1 - a) * maximum
+    win = max(row_crit)
+    print("Стратегия с индексом {0} и выйгрышом {1}".format(row_crit.index(win) + 1, win))
 
 
 vald_crit(C)
 opt_crit(C)
+gurvic_crit(C, 0.5)

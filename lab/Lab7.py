@@ -7,6 +7,8 @@ c = 10/3
 d = -2/3
 e = -4/3
 
+# Example
+
 # a = -3
 # b = 3/2
 # c = 18/5
@@ -44,8 +46,8 @@ def make_array(N):
 
 
 def find_saddle_point(array, N):
-    row_min = [0.0] * (N + 1)
-    col_max = [-1000.0] * (N + 1)
+    row_min = [np.amax(array)] * (N + 1)
+    col_max = [np.amin(array)] * (N + 1)
     for i in range(0, N + 1):
         for j in range(0, N + 1):
             row_min[j] = min(row_min[j], array[j][i])
