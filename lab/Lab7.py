@@ -1,4 +1,4 @@
-from BrownRobins import brown_robinson_method
+from BrownRobins import brown_robinson_method, print_list
 import numpy as np
 
 a = -5
@@ -14,6 +14,13 @@ if (Hxx < 0.0) & (Hyy > 0.0):
     print("Игра выпукло-вогнутая")
 
 
+def print_matrix(mtx):
+    a = "[" + "\n"
+    for m in mtx:
+        a += print_list(m) + "\n"
+    return a + ']'
+
+
 def h(a, b, c, d, e, x, y):
     return a * x * x + b * y * y + c * x * y + d * x + e * y
 
@@ -26,7 +33,7 @@ def make_array(N):
         for j in range(0, N + 1):
             y = j / N
             array[i].append(h(a, b, c, d, e, x, y))
-    print(array)
+    print(print_matrix(array))
     return array
 
 
@@ -37,12 +44,13 @@ def find_saddle_point(array, N):
         for j in range(0, N + 1):
             row_min[j] = min(row_min[j], array[j][i])
             col_max[i] = max(col_max[i], array[j][i])
-    print(row_min, col_max)
+    print(print_list(row_min))
+    print(print_list(col_max))
     for i in range(0, N + 1):
         for j in range(0, N + 1):
             if array[j][i] == row_min[j] == col_max[i]:
                 print("Есть седловая точка:")
-                print("x= ", j/N, ", y= ", i/N, ", H= ", array[j][i])
+                print("x = {0: <5.4}, y = {0: <5.4}, H = {0: <5.4}".format(j/N, i/N, array[j][i]))
                 return j/N, i/N, array[j][i]
     print("Седловых точек нет!")
     return -1, -1, -1
@@ -53,7 +61,7 @@ def number_method(a, b, c, d, e):
     y = (c * d - 2 * a * e) / (4 * a * b - c * c)
     x = - ((c * y + d) / (2 * a))
     H = h(a, b, c, d, e, x, y)
-    print("x = ", x, ", y = ", y, "H = ", H)
+    print("x = {0: <5.4}, y = {0: <5.4}, H = {0: <5.4}".format(x, y, H))
 
 
 number_method(a, b, c, d, e)

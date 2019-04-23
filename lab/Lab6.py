@@ -8,6 +8,12 @@ C = np.array([
     [16., 6., 2.]
 ])
 
+# C = np.array([
+#     [2., 1., 3.],
+#     [3., 0., 1.],
+#     [1., 2., 1.]
+# ])
+
 
 inverse_matrix_method(C)
 brown_robinson_method(C)
