@@ -38,27 +38,44 @@ def math_expectation(array):
     y = array.shape[1]
     row_exp = [np.amin(array)] * x
     for i in range(0, x):
-        row_exp = sum(array[i])/y
+        row_exp[i] = sum(array[i])/y
     win = max(row_exp)
     return [row_exp.index(win) + 1, win]
+
+
+def risk_array(array):
+    x = array.shape[0]
+    y = array.shape[1]
+    answer = [[0] * y] * x
+    col_max = [np.amin(array)] * y
+    for i in range(0, y):
+        for j in range(0, x):
+            col_max[i] = max(col_max[i], array[j][i])
+    for i in range(0, y):
+        for j in range(0, x):
+            answer[j][i] = col_max[i] - array[j][i]
+    return answer
 
 
 def bernulli_crit(array):
     print("Критерий Бернулли:")
     answer = math_expectation(array)
-    print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
+    print("Стратегия с индексом {0} с математическим ожиданием {1}".format(answer[0], answer[1]))
+    return answer[0]
 
 
 def vald_crit(array):
     print("Критерий Вальда:")
     answer = max_min(array)
     print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
+    return answer[0]
 
 
 def opt_crit(array):
     print("Критерий максимума:")
     answer = max_max(array)
     print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
+    return answer[0]
 
 
 def gurvic_crit(array, a):
@@ -71,9 +88,19 @@ def gurvic_crit(array, a):
         row_crit[i] = (a * minimum) + (1 - a) * maximum
     win = max(row_crit)
     print("Стратегия с индексом {0} и выйгрышом {1}".format(row_crit.index(win) + 1, win))
+    return row_crit.index(win) + 1
+
+
+def savage_crit(array):
+    print("Критерий Сэвиджа:")
+    risk_arr = risk_array(array)
+    print(risk_arr)
+    # print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
+    # return answer[0]
 
 
 bernulli_crit(C)
 vald_crit(C)
 opt_crit(C)
 gurvic_crit(C, 0.5)
+savage_crit(C)
