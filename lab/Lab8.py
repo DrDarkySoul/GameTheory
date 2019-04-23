@@ -33,6 +33,22 @@ def max_max(array):
     return [np.where(array == win)[0][0] + 1, win]
 
 
+def math_expectation(array):
+    x = array.shape[0]
+    y = array.shape[1]
+    row_exp = [np.amin(array)] * x
+    for i in range(0, x):
+        row_exp = sum(array[i])/y
+    win = max(row_exp)
+    return [row_exp.index(win) + 1, win]
+
+
+def bernulli_crit(array):
+    print("Критерий Бернулли:")
+    answer = math_expectation(array)
+    print("Стратегия с индексом {0} с выигрышом {1}".format(answer[0], answer[1]))
+
+
 def vald_crit(array):
     print("Критерий Вальда:")
     answer = max_min(array)
@@ -57,6 +73,7 @@ def gurvic_crit(array, a):
     print("Стратегия с индексом {0} и выйгрышом {1}".format(row_crit.index(win) + 1, win))
 
 
+bernulli_crit(C)
 vald_crit(C)
 opt_crit(C)
 gurvic_crit(C, 0.5)
