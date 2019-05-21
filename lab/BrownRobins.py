@@ -1,6 +1,7 @@
 from numpy.linalg import inv
 from random import randint
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def add_vectors(v, w):
@@ -41,6 +42,8 @@ def inverse_matrix_method(c):
 
 def brown_robinson_method(c):
     print("Метод Брауна–Робинсона:")
+    plot_top = []
+    plot_bot = []
     size = np.size(c, 0)
     k = 1
     choice_a = randint(0, size - 1)
@@ -58,6 +61,8 @@ def brown_robinson_method(c):
     eps = v_top - v_bot
     print('{0: <3} {1: <3} {2: <3} {3} {4} {5: <3.2f} {6: <3.2f} {7: <3.2f}'
           .format(k, choice_a + 1, choice_b + 1, print_list(win_a), print_list(loose_b), v_top, v_bot, eps))
+    plot_bot.append(v_bot)
+    plot_top.append(v_top)
     while eps >= 0.1:
         i_len = indexes(loose_b, min(loose_b))
         choice_a = i_len[randint(0, len(i_len) - 1)]
@@ -77,10 +82,15 @@ def brown_robinson_method(c):
         eps = v_top_min - v_bot_max
         print('{0: <3} {1: <3} {2: <3} {3} {4} {5: <3.2f} {6: <3.2f} {7: <3.2f}'
               .format(k, choice_a + 1, choice_b + 1, print_list(win_a), print_list(loose_b), v_top, v_bot, eps))
+        plot_bot.append(v_bot)
+        plot_top.append(v_top)
     y_k = [num / k for num in y_k]
     x_k = [num / k for num in x_k]
     print("Оптимальная стратегия игрока 1:", print_list(y_k))
     print("Оптимальная стратегия игрока 2:", print_list(x_k))
     print('Цена игры в промежутке от {0: <3.2} до {1: <3.2}'.format(v_bot, v_top))
     print("Количество раундов: ", k)
+    plt.plot(plot_top)
+    plt.plot(plot_bot)
+    plt.show()
     return x_k, y_k
