@@ -2,7 +2,9 @@ import numpy as np
 
 
 def analytic_method(point_quantity, detection_radius):
-    return point_quantity / 2 * (1 - np.sqrt(1 - detection_radius ** 2))
+    if detection_radius > 1:
+        detection_radius = 1
+    return point_quantity / 2 * (1 - np.sqrt(1 - (detection_radius ** 2)))
 
 
 def get_random_point():
@@ -26,7 +28,7 @@ def win_function(detection_radius, point_quantity):
     win = False
     p_b = get_random_point()
     p_a = get_points_array(point_quantity)
-    max_distance = detection_radius / np.sin((np.pi - np.arcsin(detection_radius)) / 2)
+    max_distance = detection_radius
     for a_i in p_a:
         distance = np.sqrt(np.sum((a_i - p_b) ** 2))
         if distance <= max_distance:
@@ -50,4 +52,4 @@ def sphere_game(point_quantity, detection_radius, count):
 
 
 sphere_game(10, 0.2, 10000)
-sphere_game(5, 0.4, 10000)
+sphere_game(10, 0.4, 10000)
