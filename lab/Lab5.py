@@ -1,7 +1,7 @@
 import numpy as np
 
-dim=10
-epsilon=10e-6
+dim = 10
+epsilon = 10e-6
 control_low = 0
 control_high = 100
 
@@ -10,8 +10,8 @@ def get_initial_opinions(control_l, control_h, dimension):
     return np.random.randint(control_l, control_h, dimension)
 
 
-def print_matrix(matrix, matrix_name="Матрица доверия:"):
-    print(matrix_name)
+def print_matrix(matrix):
+    print("Матрица доверия:")
     print("\n".join(", ".join("{0:.3f}".format(x) for x in row) for row in matrix))
 
 
@@ -60,23 +60,19 @@ def get_controls(control_l, control_h, sign):
     return control if sign else -control
 
 
-def solve_influence(matrix, dimension, epsilon):
+def solve_influence(matrix, dimension, eps):
     u_agents, v_agents = get_agents(dimension)
     print("Агенты первого игрока: {0}".format(sorted(u_agents)))
     print("Агенты второго игрока: {0}".format(sorted(v_agents)))
-
     u_control = get_controls(control_low, control_high, True)
     v_control = get_controls(control_low, control_high, False)
     print("Сформированное начальное мнение первого игрока: {0:.0f}".format(u_control))
     print("Сформированное начальное мнение второго игрока: {0:.0f}".format(v_control))
-
     influenced_opinions = initial_opinions
-
     for number in np.hstack((v_agents, u_agents)):
         influenced_opinions[number] = u_control if number in u_agents else v_control
-
     print("Изначальные мнения с учетом сформированных: X(0) =", influenced_opinions)
-    result_opinions, iter_count = matrix_reduce(matrix, epsilon, influenced_opinions)
+    result_opinions, iter_count = matrix_reduce(matrix, eps, influenced_opinions)
     print("Количество итераций:", iter_count)
     print("Результирующее мнение: X(t->inf) =", ", ".join("{0:.3f}".format(x) for x in result_opinions))
 
