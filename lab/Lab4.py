@@ -3,7 +3,7 @@ from numpy.linalg import inv
 from termcolor import colored
 
 intersection = np.array([
-    [[1, 0.5], [2, 0]],
+    [[1, 0.7], [2, 0]],
     [[1, 2], [0.5, 0]]], float)
 
 family = np.array([
